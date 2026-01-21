@@ -1,27 +1,58 @@
 class Distance:
-    # Write your code here
-        def __init__(self, comfort_class: int, clean_mark: int, brand: str):
+    def __init__(self, km):
+        self.km = km
 
-            if not 1 <= comfort_class < 8:
-                raise ValueError
-            self.comfort_class = comfort_class
-            if not 1 <= clean_mark < 11:
-                raise ValueError
-            self.clean_mark = clean_mark
-            self.brand = brand
+    def __str__(self):
+        return f"Distance: {self.km} kilometers"
 
-    class CarWashStation:
+    def __repr__(self):
+       return f"Distance(km={self.km})"
 
-        def __init__(self, distance_from_city_center: int,
-                     clean_power: int, average_rating: int, count_of_rating: int):
-            self.distance_from_city_center = distance_from_city_center
-            self.clean_power = clean_power
-            self.average_rating = average_rating
-            self.count_of_rating = count_of_rating
+    def __add__(self, other):
+        other_val = other.km if isinstance(other, Distance) else other
+        return Distance(self.km + other_val)
 
-        def calculate_washing_price(self, car):
-            price = ((car.comfort_class
-                      * (self.clean_power - self.car.clean_mark)
-                      * self.average_rating)
-                     / self.distance_from_city_center)
-            return round(price, 1)
+    def __mul__(self, other):
+        if isinstance(other, (int, float)):
+            return Distance(self.km * other)
+        return NotImplemented
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)):
+            if other == 0:
+                raise ZeroDivisionError("Nie można dzielić dystansu przez zero!")
+            rounded_km = round(self.km / other, 2)
+            return Distance(rounded_km)
+        return NotImplemented
+
+    def __iadd__(self, other):
+        if isinstance(other, Distance):
+            self.km += other.km
+        elif isinstance(other, (int, float)):
+            self.km += other.km
+        else:
+            return NotImplemented
+        return self
+
+    def __lt__(self, other):
+        val = other.km if isinstance(other, Distance) else other
+        return self.km < val
+
+    def __le__(self, other):
+        val = other.km if isinstance(other, Distance) else other
+        return self.km <= val
+
+    def __gt__(self, other):
+        val = other.km if isinstance(other, Distance) else other
+        return self.km > val
+
+    def __ge__(self, other):
+        val = other.km if isinstance(other, Distance) else other
+        return self.km >= val
+
+    def __eq__(self, other):
+        val = other.km if isinstance(other, Distance) else other
+        return self.km == val
