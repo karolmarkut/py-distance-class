@@ -32,7 +32,7 @@ class Distance:
         if isinstance(other, Distance):
             self.km += other.km
         elif isinstance(other, (int, float)):
-            self.km += other.km
+            self.km += other
         else:
             return NotImplemented
         return self
